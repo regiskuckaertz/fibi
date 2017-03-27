@@ -18,6 +18,6 @@ Yes, all whitespace are kept.
 
 - [ ] Return bindings
 - [ ] Expression values and operational semantics
-- [ ] Expressions in text nodes
+- [x] Expressions in text nodes
 - [ ] Control structures: looping, branching, mapping
 - [ ] Tests
