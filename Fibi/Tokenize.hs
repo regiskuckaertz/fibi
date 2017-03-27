@@ -28,13 +28,11 @@ comment = do
     chars <- try (string "<!--") *> many (try (singleDash <|> noDash)) <* string "-->"
     return $ CommentTag (concat chars)
 
-singleDash :: Parser String
 singleDash = do
     char '-'
     nxtChar <- noneOf "-"
     return ['-', nxtChar]
 
-noDash :: Parser String
 noDash = do
     ch <- noneOf "-"
     return [ch]
