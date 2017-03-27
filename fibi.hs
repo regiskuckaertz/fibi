@@ -1,21 +1,16 @@
-import Fibi.Types
-import Fibi.Tokenize
-import Fibi.Parse
-import Fibi.Write
+import Fibi.Tokenize (tokenize)
+import Fibi.Parse (parse)
+import Fibi.Write (write)
 
-import qualified Text.ParserCombinators.Parsec as P
-
---- We just read whatever comes from standard input and spit out its conversion result
+--- interact is a standard IO function that will read from standard input,
+--- pass the result to its argument as a string, and write the result to
+--- standard output
+--- interact :: (String -> String) -> IO () -> IO String
 main = interact fibi
 
 --- Our runner will just pipe the three components together:
 fibi :: String -> String
 fibi html =
-    let res = (coerce . tokenize) html >>= parse >>= write
+    let res = tokenize html >>= parse >>= write
     in case res of Left err -> show err
                    Right js -> js
-
-
-coerce :: Either P.ParseError [Token] -> Either FibiError [Token]
-coerce (Left p) = Left (ParseError p)
-coerce (Right ts) = Right ts

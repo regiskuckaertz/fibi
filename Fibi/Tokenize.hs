@@ -10,8 +10,17 @@ import Text.ParserCombinators.Parsec
 --- Let's parse that motherfucker
 --- ***********************************************************************
 
-tokenize :: String -> Either ParseError [Token]
-tokenize html = parse htmlFrag "(unknown)" html
+tokenize :: String -> Either FibiError [Token]
+tokenize html =
+    let tokens = parse htmlFrag "(unknown)" html
+    in coerce tokens
+
+--- We must wrap parsing errors because of the signature of the bind
+--- operator: >>= M a -> (a -> M b) -> M b
+--- (in this case, M = Either FibiError)
+coerce :: Either ParseError [Token] -> Either FibiError [Token]
+coerce (Left p) = Left (ParseError p)
+coerce (Right ts) = Right ts
 
 htmlFrag = many (comment <|> endTag <|> startTag <|> text)
 
