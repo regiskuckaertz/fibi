@@ -48,7 +48,7 @@ startTag = do
 --- Attributes (single-quoted) match /\s+[^'"\/<=\s]\s*=\s*'[^']'/
 attribute = do
     many1 space
-    name <- fibiExpr
+    name <- fibiExpr "\"'>/=\t\n\r\f\v"
     spaces
     char '='
     spaces
@@ -56,20 +56,22 @@ attribute = do
     return (name, value)
 
 quotedValue :: Char -> Parser FibiExpr
-quotedValue sep = between (char sep) (char sep) fibiExpr
+quotedValue sep = between (char sep) (char sep) (fibiExpr "\"'>/=\t\n\r\f\v")
 
-unquotedValue = fibiExpr
+unquotedValue = fibiExpr "\"'>/=\t\n\r\f\v"
 
-fibiExpr = do
-    exprs <- many1 (fibiVar <|> fibiString)
+fibiExpr :: String -> Parser FibiExpr
+fibiExpr chrs = do
+    exprs <- many1 (fibiVar <|> fibiString chrs)
     return $ buildExpr exprs
 
 fibiVar = do
     str <- try (string "{{" >> spaces) *> symbol <* (spaces >> string "}}")
     return $ FibiVar str
 
-fibiString = do
-    str <- many1 $ noneOf "\"'>/=\t\n\r\f\v{"
+fibiString :: String -> Parser FibiExpr
+fibiString chrs = do
+    str <- many1 $ noneOf ('{' : chrs)
     return $ FibiString str
 
 symbol = many1 (alphaNum <|> oneOf "-_:")
