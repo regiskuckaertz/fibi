@@ -35,7 +35,7 @@ type Id = String
 data Token = StartTag String [Attribute]
            | EndTag String
            | CommentTag String
-           | TextTag String
+           | TextTag FibiExpr
     deriving Show
 
 --- Attributes are simply pairs of strings ... for now ಠ‿ಠ
@@ -46,7 +46,7 @@ type Attribute = (FibiExpr, FibiExpr)
 --- and a non-empty element both contain a list of DOM trees where each
 --- of their children is the root
 data Dom = Fragment [Dom]
-          | Text String
+          | Text FibiExpr
           | Comment String
           | VoidElement String [Attribute]
           | Element String [Attribute] [Dom]

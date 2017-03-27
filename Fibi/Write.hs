@@ -23,9 +23,9 @@ foldDom (VoidElement n as) = fVoidElement (n, as)
 foldDom (Element n as cs) = fElement (n, as, cs)
 foldDom (Fragment cs) = fFragment cs
 
-fText :: String -> FoldAcc -> FoldAcc
+fText :: FibiExpr -> FoldAcc -> FoldAcc
 fText str (pid, nid, p) =
-    let str' = appendChildStr (var pid) $ printf "document.createTextNode('%s')" (quote str)
+    let str' = appendChildStr (var pid) $ printf "document.createTextNode(%s)" (show str)
     in (pid, nid, str' : p)
 
 fComment :: String -> FoldAcc -> FoldAcc

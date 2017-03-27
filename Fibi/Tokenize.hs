@@ -80,8 +80,8 @@ buildExpr :: [FibiExpr] -> FibiExpr
 buildExpr (e1 : e2 : es) = FibiSeq e1 (buildExpr (e2 : es))
 buildExpr [e1] = e1
 
---- Parsing text is simple: it's everything that isn't <
+--- Parsing text is simple: it's everything but <
 text :: Parser Token
 text = do
-    txt <- many1 $ noneOf "<"
-    return $ TextTag txt
+    expr <- fibiExpr "<"
+    return $ TextTag expr
