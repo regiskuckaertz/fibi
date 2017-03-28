@@ -71,7 +71,7 @@ function(context) {
 
 Loading that code in the browser console and calling it shows it produces the expected result:
 
-## Expression
+## Expressions
 
 
 
