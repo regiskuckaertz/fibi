@@ -16,7 +16,7 @@ function(context) {
 }
 ```
 
-Yes, whitespaces are kept, browser rendering engines are responsible for dealing with it. Here is a more exhaustive example:
+Yes, whitespaces are kept, browser rendering engines normalise whitespace. Here is a more exhaustive example:
 
 ```
 <div class="frame">
