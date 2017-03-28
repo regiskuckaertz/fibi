@@ -1,3 +1,5 @@
+# fibi - an HTML to DOM API compiler
+
 Front-end logic often involves some form of templating work, be it to mark up raw data or display dynamic UI elements. So far, the way of dealing with this has been one of two ways: via quoted strings injected into the DOM by means of `innerHTML` or `insertAdjacentHTML`; or via an added layer of JavaScript abstractions, JSX being the most recent example. Both methods have their pros and cons:
 
 - crude string juggling is easy to achieve and piggybacks on the browser's native HTML parser. String quoting is error-prone though, and quickly trickles down into fuzzy parsing issues. It is also not very efficient: this back-and-forth between the main thread and the parser has a cost, using the `innerHTML` API only makes things worse.
